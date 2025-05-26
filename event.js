@@ -4,10 +4,10 @@ const tablazat = document.getElementById("tablazat")
 let palya = []
 
 function general() {
-    // palyaGeneral()
+    palyaGeneral()
     for(let i = 0; i<sor; i++) {
         let tr = document.createElement("tr")
-        for(let j = 0; j<oszlop; i++) {
+        for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
             tr.appendChild(td)
         }
