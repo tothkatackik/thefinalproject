@@ -4,6 +4,7 @@ const tablazat = document.getElementById("tablazat")
 const cucc = document.getElementById("cucc")
 let palya = []
 let hp = 3
+let jelenleg = "fill" // és ha rányom ezt megváltoztatja és ezt vizsgáljuk de igazából boollal is lehetne
 
 function general() {
     palyaGeneral()
@@ -11,7 +12,7 @@ function general() {
         let tr = document.createElement("tr")
         for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
-            // mindegyikre onclick
+            // mindegyikre onclick és külön vizsgálja melyikkel nyomott rá és ja
             tr.appendChild(td)
         }
         tablazat.appendChild(tr)
