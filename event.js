@@ -3,6 +3,7 @@ const oszlop = document.getElementById("oszlop").value
 const tablazat = document.getElementById("tablazat")
 const cucc = document.getElementById("cucc")
 let palya = []
+let hp = 3
 
 function general() {
     palyaGeneral()
@@ -10,12 +11,26 @@ function general() {
         let tr = document.createElement("tr")
         for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
-            
+            // mindegyikre onclick
             tr.appendChild(td)
         }
         tablazat.appendChild(tr)
     }
-
+    let fill = document.createElement("input")
+    fill.type = "button"
+    fill.id = "fill"
+    fill.value = "Tölt"
+    fill.onclick // ezt még nem tudom hogyan kéne
+    cucc.appendChild(fill)
+    let cross = document.createElement("input")
+    cross.type = "button"
+    cross.id = "cross"
+    cross.value = "Kihúz"
+    cross.onclick
+    cucc.appendChild(cross)
+    let p = document.createElement("p")
+    p.innerText = `HP: ${hp}`
+    document.querySelector("body").appendChild(p)
 }
 
 function random(a, f) {
