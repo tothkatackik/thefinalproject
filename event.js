@@ -12,30 +12,56 @@ function general() {
         let tr = document.createElement("tr")
         for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
-            // mindegyikre onclick és külön vizsgálja melyikkel nyomott rá és ja
+            td.onclick = function() {
+                megnemtudomezthogynevezzemel()
+            }
             tr.appendChild(td)
         }
         tablazat.appendChild(tr)
     }
+    fill()
+    cross()
+    
+}
+
+function megnemtudomezthogynevezzemel() {
+    if (jelenleg == "fill") {
+        azegyik()
+    } else {
+        amasik()
+    }
+}
+
+function azegyik() {
+    
+}
+
+function fill() {
     let fill = document.createElement("input")
     fill.type = "button"
     fill.id = "fill"
     fill.value = "Tölt"
-    fill.onclick // ezt még nem tudom hogyan kéne
+    fill.onclick = function() {
+        jelenleg = "fill"
+    }
     cucc.appendChild(fill)
+}
+
+function cross() {
     let cross = document.createElement("input")
     cross.type = "button"
     cross.id = "cross"
     cross.value = "Kihúz"
-    cross.onclick
+    cross.onclick = function() {
+        jelenleg = "cross"
+    }
     cucc.appendChild(cross)
+}
+
+function hp() {
     let p = document.createElement("p")
     p.innerText = `HP: ${hp}`
     document.querySelector("body").appendChild(p)
-}
-
-function random(a, f) {
-    return Math.floor(Math.random()*(f-a+1))+a;
 }
 
 function palyaGeneral() {
@@ -47,4 +73,8 @@ function palyaGeneral() {
             palya.push(true)
         }
     }
+}
+
+function random(a, f) {
+    return Math.floor(Math.random()*(f-a+1))+a;
 }
