@@ -13,7 +13,7 @@ function general() {
         for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
             td.onclick = function() {
-                megnemtudomezthogynevezzemel()
+                megnemtudomezthogynevezzemel(sor*i+j)
             }
             tr.appendChild(td)
         }
@@ -24,16 +24,27 @@ function general() {
     
 }
 
-function megnemtudomezthogynevezzemel() {
+function megnemtudomezthogynevezzemel(i) {
     if (jelenleg == "fill") {
-        azegyik()
+        azegyik(i)
     } else {
-        amasik()
+        amasik(i)
     }
 }
 
 function azegyik() {
-    
+    if (palya[i]) {
+        // a cella háttere legyen fekete
+    }
+    else hiba()
+}
+
+function amasik(i) {
+
+}
+
+function hiba() {
+    // pirosra vált és átfadel abba amibe kell fadelnie
 }
 
 function fill() {
