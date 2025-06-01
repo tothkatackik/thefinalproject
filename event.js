@@ -13,7 +13,7 @@ function general() {
         for(let j = 0; j<oszlop; j++) {
             let td = document.createElement("td")
             td.onclick = function() {
-                megnemtudomezthogynevezzemel(sor*i+j)
+                dontes(this, sor*i+j)
             }
             tr.appendChild(td)
         }
@@ -21,30 +21,41 @@ function general() {
     }
     fill()
     cross()
-    
+    healthpoint()
+    console.log(palya[0])
 }
 
-function megnemtudomezthogynevezzemel(i) {
+function dontes(cella, i) {
     if (jelenleg == "fill") {
-        azegyik(i)
+        azegyik(cella, i)
     } else {
-        amasik(i)
+        amasik(cella, i)
     }
 }
 
-function azegyik() {
+function azegyik(cella, i) {
+    if (palya[i]) cella.style.backgroundColor = "black"
+    else hiba(cella)
+}
+
+function amasik(cella, i) {
+    if (!palya[i]) cella.innerText = "X"
+    else hiba(cella, i)
+}
+
+function hiba(cella, i) {
     if (palya[i]) {
-        // a cella háttere legyen fekete
+        fadeToBlack(cella)
     }
-    else hiba()
 }
 
-function amasik(i) {
-
-}
-
-function hiba() {
-    // pirosra vált és átfadel abba amibe kell fadelnie
+function fadeToBlack(cella) {
+    for(let i=255; i>0; i--) {
+        cella.style.backgroundColor = `rgb(${i}, 0, 0)`
+        sleep(20)
+    }
+    cella.innerText = "X"
+    hp--
 }
 
 function fill() {
@@ -69,7 +80,7 @@ function cross() {
     cucc.appendChild(cross)
 }
 
-function hp() {
+function healthpoint() {
     let p = document.createElement("p")
     p.innerText = `HP: ${hp}`
     document.querySelector("body").appendChild(p)
@@ -88,4 +99,8 @@ function palyaGeneral() {
 
 function random(a, f) {
     return Math.floor(Math.random()*(f-a+1))+a;
+}
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
 }
