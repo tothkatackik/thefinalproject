@@ -4,7 +4,7 @@ const tablazat = document.getElementById("tablazat")
 const cucc = document.getElementById("cucc")
 let palya = []
 let hp = 3
-let jelenleg = "fill" // és ha rányom ezt megváltoztatja és ezt vizsgáljuk de igazából boollal is lehetne
+let jelenleg
 
 function general() {
     palyaGeneral()
@@ -28,7 +28,7 @@ function general() {
 function dontes(cella, i) {
     if (jelenleg == "fill") {
         azegyik(cella, i)
-    } else {
+    } else if (jelenleg == "cross") {
         amasik(cella, i)
     }
 }
@@ -90,14 +90,40 @@ function healthpoint() {
 }
 
 function palyaGeneral() {
+    ideiglenes = []
     for(let i = 0; i<sor*oszlop; i++) {
         let r = random(0,1)
         if(r==0){
-            palya.push(false)
+            ideiglenes.push(false)
         } else {
-            palya.push(true)
+            ideiglenes.push(true)
         }
     }
+    oszlopmennyi = []
+    sormennyi = []
+    szamlalasOszlop(oszlopmennyi)
+    szamlalasSor(sormennyi, ideiglenes)
+}
+
+function szamlalasOszlop(b) {
+    let akt = 0
+    let aktoszlop = []
+    for(let i=0; i<sor;i++) {
+        for (let j=0; j<oszlop;j++) {
+            if (b[j*oszlop+i]) {
+                akt++
+            } else if (akt!=0) {
+                aktoszlop.push(akt)
+            }
+        }
+        if (aktoszlop.length!=0) {
+            palya.push(aktoszlop)
+        }
+    }
+}
+
+function szamlalasSor(b, id) {
+    
 }
 
 function random(a, f) {
