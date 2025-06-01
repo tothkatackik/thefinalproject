@@ -107,8 +107,10 @@ function palyaGeneral() {
 
 function szamlalasOszlop(b) {
     let akt = 0
-    let aktoszlop = []
+    let oszlopok = []
+    let leghosszabb = 0
     for(let i=0; i<sor;i++) {
+        let aktoszlop = []
         for (let j=0; j<oszlop;j++) {
             if (b[j*oszlop+i]) {
                 akt++
@@ -116,14 +118,18 @@ function szamlalasOszlop(b) {
                 aktoszlop.push(akt)
             }
         }
-        if (aktoszlop.length!=0) {
-            palya.push(aktoszlop)
+        oszlopok.push(aktoszlop)
+        if (aktoszlop.length>leghosszabb) {
+            leghosszabb=aktoszlop.length
         }
+    }
+    for(let i=0;i<leghosszabb;i++) {
+        if (oszlopok[i].length == 0) palya.add("")
     }
 }
 
 function szamlalasSor(b, id) {
-    
+
 }
 
 function random(a, f) {
