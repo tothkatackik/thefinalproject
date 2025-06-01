@@ -34,8 +34,11 @@ function dontes(cella, i) {
 }
 
 function azegyik(cella, i) {
-    if (palya[i]) cella.style.backgroundColor = "black"
-    else hiba(cella)
+    if (palya[i]) {
+        cella.style.backgroundColor = "black"
+    } else {
+        hiba(cella)
+    }
 }
 
 function amasik(cella, i) {
