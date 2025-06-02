@@ -108,23 +108,19 @@ function palyaGeneral() {
 function szamlalasOszlop(b) {
     let akt = 0
     let oszlopok = []
-    let leghosszabb = 0
     for(let i=0; i<sor;i++) {
-        let aktoszlop = []
+        let aktoszlop = ""
         for (let j=0; j<oszlop;j++) {
             if (b[j*oszlop+i]) {
                 akt++
             } else if (akt!=0) {
-                aktoszlop.push(akt)
+                aktoszlop += akt + " "
             }
         }
         oszlopok.push(aktoszlop)
-        if (aktoszlop.length>leghosszabb) {
-            leghosszabb=aktoszlop.length
-        }
     }
-    for(let i=0;i<leghosszabb;i++) {
-        if (oszlopok[i].length == 0) palya.add("")
+    for(let i=0;i<sor;i++) {
+        palya.push(oszlopok[i])
     }
 }
 
