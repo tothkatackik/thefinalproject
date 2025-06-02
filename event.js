@@ -1,5 +1,3 @@
-const sor = document.getElementById("sor").value
-const oszlop = document.getElementById("oszlop").value
 const tablazat = document.getElementById("tablazat")
 const cucc = document.getElementById("cucc")
 let palya = []
@@ -7,10 +5,12 @@ let hp = 3
 let jelenleg
 
 function general() {
+    const sor = parseInt(document.getElementById("sor").value)
+    const oszlop = parseInt(document.getElementById("oszlop").value)
     palyaGeneral()
-    for(let i = 0; i<sor; i++) {
+    for(let i = 0; i<sor+1; i++) {
         let tr = document.createElement("tr")
-        for(let j = 0; j<oszlop; j++) {
+        for(let j = 0; j<oszlop+1; j++) {
             let td = document.createElement("td")
             td.onclick = function() {
                 dontes(this, sor*i+j)
@@ -114,18 +114,37 @@ function szamlalasOszlop(b) {
             if (b[j*oszlop+i]) {
                 akt++
             } else if (akt!=0) {
-                aktoszlop += akt + " "
+                aktoszlop += `${akt} `
             }
         }
         oszlopok.push(aktoszlop)
     }
+    palya.push("")
     for(let i=0;i<sor;i++) {
         palya.push(oszlopok[i])
     }
 }
 
 function szamlalasSor(b, id) {
-
+    let akt = 0
+    let sorok = []
+    for(let i=0; i<sor;i++) {
+        let aktsor = ""
+        for (let j=0; j<oszlop;j++) {
+            if (b[i*sor+j]) {
+                akt++
+            } else if (akt!=0) {
+                aktsor += `${akt} `
+            }
+        }
+        sorok.push(aktsor)
+    }
+    for(let i=0; i<sor;i++) {
+        palya.push(sorok[i])
+        for(let j=0;j<oszlop+1;j++) {
+            palya.push(id[i])
+        }
+    }
 }
 
 function random(a, f) {
