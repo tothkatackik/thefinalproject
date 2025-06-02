@@ -24,7 +24,6 @@ function general() {
     fill()
     cross()
     healthpoint()
-    console.log(palya[0])
 }
 
 function dontes(cella, i) {
