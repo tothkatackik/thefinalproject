@@ -1,12 +1,14 @@
 const tablazat = document.getElementById("tablazat")
 const cucc = document.getElementById("cucc")
+let sor
+let oszlop
 let palya = []
 let hp = 3
 let jelenleg
 
 function general() {
-    const sor = parseInt(document.getElementById("sor").value)
-    const oszlop = parseInt(document.getElementById("oszlop").value)
+    sor = parseInt(document.getElementById("sor").value)
+    oszlop = parseInt(document.getElementById("oszlop").value)
     palyaGeneral()
     for(let i = 0; i<sor+1; i++) {
         let tr = document.createElement("tr")
@@ -99,19 +101,17 @@ function palyaGeneral() {
             ideiglenes.push(true)
         }
     }
-    oszlopmennyi = []
-    sormennyi = []
-    szamlalasOszlop(oszlopmennyi)
-    szamlalasSor(sormennyi, ideiglenes)
+    szamlalasOszlop(ideiglenes)
+    szamlalasSor(ideiglenes)
 }
 
-function szamlalasOszlop(b) {
+function szamlalasOszlop(id) {
     let akt = 0
     let oszlopok = []
     for(let i=0; i<sor;i++) {
         let aktoszlop = ""
         for (let j=0; j<oszlop;j++) {
-            if (b[j*oszlop+i]) {
+            if (id[j*oszlop+i]) {
                 akt++
             } else if (akt!=0) {
                 aktoszlop += `${akt} `
@@ -125,13 +125,13 @@ function szamlalasOszlop(b) {
     }
 }
 
-function szamlalasSor(b, id) {
+function szamlalasSor(id) {
     let akt = 0
     let sorok = []
     for(let i=0; i<sor;i++) {
         let aktsor = ""
         for (let j=0; j<oszlop;j++) {
-            if (b[i*sor+j]) {
+            if (id[i*sor+j]) {
                 akt++
             } else if (akt!=0) {
                 aktsor += `${akt} `
