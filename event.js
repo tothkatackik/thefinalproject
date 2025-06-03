@@ -53,7 +53,7 @@ function general() {
                     let x = parseInt(this.dataset.x);
                     dontes(this, megoldas[y][x]);
                     vezetes[i*sor+j] = true
-                    vegeVanE(megoldas)
+                    vegeVanE(megoldas, sor, oszlop)
                 };
             }
 
@@ -147,19 +147,29 @@ function random(a, b) {
 }
 
 function vegeVanE(megoldas) {
+    let i = 0
     let j = 0
     let veg = true
-    while (j < megoldas.length) {
-        if(megoldas[j] != vezetes[j]) veg = false
-        j++
+    while (i < sor && veg) {
+        while (j < oszlop && veg) {
+            if (megoldas[i][j]) {
+                let cella = tablazat.rows[i + 1].cells[j + 1];
+                if (cella.style.backgroundColor != "black") veg = false
+            }
+            j++
+        }
+        i++
     }
     if (veg) vege("Nyertél!")
 }
 
 function vege(s) {
-    let body = document.querySelector("body")
+    setTimeout(() => {
+        let body = document.querySelector("body")
     body.innerHTML = ""
     let h1 = document.createElement("h1")
     h1.innerText = s
     body.appendChild(h1)
+    }, 3000);
+    
 }
