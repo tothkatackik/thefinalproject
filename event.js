@@ -1,161 +1,151 @@
-const tablazat = document.getElementById("tablazat")
-const cucc = document.getElementById("cucc")
-let sor
-let oszlop
-let palya = []
-let hp = 3
-let jelenleg
+const tablazat = document.getElementById("tablazat");
+const cucc = document.getElementById("cucc");
+let sor, oszlop;
+let palya = [];
+let hp = 3;
+let jelenleg;
 
 function general() {
-    sor = parseInt(document.getElementById("sor").value)
-    oszlop = parseInt(document.getElementById("oszlop").value)
-    palyaGeneral()
-    for(let i = 0; i<sor+1; i++) {
-        let tr = document.createElement("tr")
-        for(let j = 0; j<oszlop+1; j++) {
-            let td = document.createElement("td")
-            if(typeof palya[i*sor+j] === "string") {
-                td.innerText = palya[i*sor+j]
-            } else {
-                td.onclick = function() {
-                dontes(this, sor*i+j)
-            }
-            }
-            tr.appendChild(td)
+    tablazat.innerHTML = "";
+    palya = [];
+    hp = 3;
+
+    sor = parseInt(document.getElementById("sor").value);
+    oszlop = parseInt(document.getElementById("oszlop").value);
+
+    let megoldas = [];
+    for (let i = 0; i < sor; i++) {
+        let sorTomb = [];
+        for (let j = 0; j < oszlop; j++) {
+            sorTomb.push(random(0, 1) === 1);
         }
-        tablazat.appendChild(tr)
+        megoldas.push(sorTomb);
     }
-    fill()
-    cross()
-    healthpoint()
+
+    let sorSzamok = megoldas.map(sor => szamolasSor(sor));
+    let oszlopSzamok = [];
+    for (let j = 0; j < oszlop; j++) {
+        let oszlop = [];
+        for (let i = 0; i < sor; i++) {
+            oszlop.push(megoldas[i][j]);
+        }
+        oszlopSzamok.push(szamolasSor(oszlop));
+    }
+
+    for (let i = -1; i < sor; i++) {
+        let tr = document.createElement("tr");
+        for (let j = -1; j < oszlop; j++) {
+            let td = document.createElement("td");
+
+            if (i === -1 && j === -1) {
+                td.innerText = "";
+            } else if (i === -1) {
+                td.innerText = oszlopSzamok[j].join("\n");
+            } else if (j === -1) {
+                td.innerText = sorSzamok[i].join(" ");
+            } else {
+                td.dataset.x = j;
+                td.dataset.y = i;
+                td.onclick = function () {
+                    let y = parseInt(this.dataset.y);
+                    let x = parseInt(this.dataset.x);
+                    dontes(this, megoldas[y][x]);
+                };
+            }
+
+            tr.appendChild(td);
+        }
+        tablazat.appendChild(tr);
+    }
+
+    fill();
+    cross();
+    healthpoint();
 }
 
-function dontes(cella, i) {
-    if (jelenleg == "fill") {
-        azegyik(cella, i)
-    } else if (jelenleg == "cross") {
-        amasik(cella, i)
+function szamolasSor(tomb) {
+    let eredmeny = [];
+    let akt = 0;
+    for (let i = 0; i < tomb.length; i++) {
+        if (tomb[i]) {
+            akt++;
+        } else if (akt !== 0) {
+            eredmeny.push(akt);
+            akt = 0;
+        }
+    }
+    if (akt !== 0) eredmeny.push(akt);
+    if (eredmeny.length === 0) eredmeny.push(0);
+    return eredmeny;
+}
+
+function dontes(cella, helyes) {
+    if (jelenleg === "fill") {
+        if (helyes) {
+            cella.style.backgroundColor = "black";
+        } else {
+            hiba(cella, helyes);
+        }
+    } else if (jelenleg === "cross") {
+        if (!helyes) {
+            cella.innerText = "X";
+        } else {
+            hiba(cella, helyes);
+        }
     }
 }
 
-function azegyik(cella, i) {
-    if (palya[i]) {
-        cella.style.backgroundColor = "black"
+function hiba(cella, helyes) {
+    hp--;
+    document.querySelector("p").innerText = `HP: ${hp}`;
+    cella.style.backgroundColor = "red";
+    cella.innerText = "X";
+    if(helyes) {
+        setTimeout(() => {
+            cella.style.backgroundColor = "black";
+        }, 2000);
     } else {
-        hiba(cella)
+        setTimeout(() => {
+            cella.style.backgroundColor = "white";
+        }, 2000);
     }
-}
-
-function amasik(cella, i) {
-    if (!palya[i]) cella.innerText = "X"
-    else hiba(cella, i)
-}
-
-function hiba(cella, i) {
-    if (palya[i]) {
-        fadeToBlack(cella)
+    if(hp==0) {
+        vesztes()
     }
-}
-
-function fadeToBlack(cella) {
-    for(let i=255; i>0; i--) {
-        cella.style.backgroundColor = `rgb(${i}, 0, 0)`
-        sleep(20)
-    }
-    cella.innerText = "X"
-    hp--
 }
 
 function fill() {
-    let fill = document.createElement("input")
-    fill.type = "button"
-    fill.id = "fill"
-    fill.value = "Tölt"
-    fill.onclick = function() {
-        jelenleg = "fill"
-    }
-    cucc.appendChild(fill)
+    let fill = document.createElement("input");
+    fill.type = "button";
+    fill.id = "fill";
+    fill.value = "Tölt";
+    fill.onclick = () => jelenleg = "fill";
+    cucc.appendChild(fill);
 }
 
 function cross() {
-    let cross = document.createElement("input")
-    cross.type = "button"
-    cross.id = "cross"
-    cross.value = "Kihúz"
-    cross.onclick = function() {
-        jelenleg = "cross"
-    }
-    cucc.appendChild(cross)
+    let cross = document.createElement("input");
+    cross.type = "button";
+    cross.id = "cross";
+    cross.value = "Kihúz";
+    cross.onclick = () => jelenleg = "cross";
+    cucc.appendChild(cross);
 }
 
 function healthpoint() {
-    let p = document.createElement("p")
-    p.innerText = `HP: ${hp}`
-    document.querySelector("body").appendChild(p)
+    let p = document.createElement("p");
+    p.innerText = `HP: ${hp}`;
+    document.body.appendChild(p);
 }
 
-function palyaGeneral() {
-    ideiglenes = []
-    for(let i = 0; i<sor*oszlop; i++) {
-        let r = random(0,1)
-        if(r==0){
-            ideiglenes.push(false)
-        } else {
-            ideiglenes.push(true)
-        }
-    }
-    szamlalasOszlop(ideiglenes)
-    szamlalasSor(ideiglenes)
+function random(a, b) {
+    return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
-function szamlalasOszlop(id) {
-    let akt = 0
-    let oszlopok = []
-    for(let i=0; i<sor;i++) {
-        let aktoszlop = ""
-        for (let j=0; j<oszlop;j++) {
-            if (id[j*oszlop+i]) {
-                akt++
-            } else if (akt!=0) {
-                aktoszlop += `${akt}\n`
-            }
-        }
-        akt = 0
-        oszlopok.push(aktoszlop)
-    }
-    palya.push("")
-    for(let i=0;i<sor;i++) {
-        palya.push(oszlopok[i])
-    }
-}
-
-function szamlalasSor(id) {
-    let akt = 0
-    let sorok = []
-    for(let i=0; i<sor;i++) {
-        let aktsor = ""
-        for (let j=0; j<oszlop;j++) {
-            if (id[i*sor+j]) {
-                akt++
-            } else if (akt!=0) {
-                aktsor += `${akt} `
-            }
-        }
-        akt = 0
-        sorok.push(aktsor)
-    }
-    for(let i=0; i<sor;i++) {
-        palya.push(sorok[i])
-        for(let j=0;j<oszlop+1;j++) {
-            palya.push(id[i])
-        }
-    }
-}
-
-function random(a, f) {
-    return Math.floor(Math.random()*(f-a+1))+a;
-}
-
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
+function vesztes() {
+    let body = document.querySelector("body")
+    body.innerHTML = ""
+    let h1 = document.createElement("h1")
+    h1.innerText = "Vesztettél!"
+    body.appendChild(h1)
 }
