@@ -1,11 +1,46 @@
+body {
+  background-color: lavender;
+  color: indigo;
+  font-family: 'Courier New', Courier, monospace;
+}
+
 td {
-  border: 1px solid black;
+  background-color: beige;
+  border: 1px solid indigo;
   height: 50px;
   width: 50px;
-  text-align: center;
 }
 
 h1 {
   text-align: center;
   padding: 100px;
+}
+
+#title {
+  padding: 0px;
+}
+
+div, table, p {
+  margin: 15px auto;
+}
+
+div {
+  width: fit-content;
+}
+
+td, p {
+  text-align: center;
+}
+
+input {
+  background-color: beige;
+  margin: 0px 5px;
+  border: 1px solid indigo;
+  border-radius: 5px;
+  color: indigo;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+input:active {
+  background-color: rgb(225, 225, 200);
 }

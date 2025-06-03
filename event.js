@@ -41,10 +41,13 @@ function general() {
 
             if (i == -1 && j == -1) {
                 td.innerText = "";
+                td.style.backgroundColor = "rgb(225, 225, 200)"
             } else if (i == -1) {
                 td.innerText = oszlopSzamok[j].join("\n");
+                td.style.backgroundColor = "rgb(225, 225, 200)"
             } else if (j == -1) {
                 td.innerText = sorSzamok[i].join(" ");
+                td.style.backgroundColor = "rgb(225, 225, 200)"
             } else {
                 td.dataset.x = j;
                 td.dataset.y = i;
@@ -170,6 +173,6 @@ function vege(s) {
     let h1 = document.createElement("h1")
     h1.innerText = s
     body.appendChild(h1)
-    }, 3000);
+    }, 2000);
     
 }
