@@ -2,6 +2,7 @@ const tablazat = document.getElementById("tablazat");
 const cucc = document.getElementById("cucc");
 let sor, oszlop;
 let palya = [];
+let vezetes = []
 let hp = 3;
 let jelenleg;
 
@@ -17,7 +18,8 @@ function general() {
     for (let i = 0; i < sor; i++) {
         let sorTomb = [];
         for (let j = 0; j < oszlop; j++) {
-            sorTomb.push(random(0, 1) === 1);
+            sorTomb.push(random(0, 1) == 1);
+            vezetes.push(false)
         }
         megoldas.push(sorTomb);
     }
@@ -37,11 +39,11 @@ function general() {
         for (let j = -1; j < oszlop; j++) {
             let td = document.createElement("td");
 
-            if (i === -1 && j === -1) {
+            if (i == -1 && j == -1) {
                 td.innerText = "";
-            } else if (i === -1) {
+            } else if (i == -1) {
                 td.innerText = oszlopSzamok[j].join("\n");
-            } else if (j === -1) {
+            } else if (j == -1) {
                 td.innerText = sorSzamok[i].join(" ");
             } else {
                 td.dataset.x = j;
@@ -50,6 +52,8 @@ function general() {
                     let y = parseInt(this.dataset.y);
                     let x = parseInt(this.dataset.x);
                     dontes(this, megoldas[y][x]);
+                    vezetes[i*sor+j] = true
+                    vegeVanE(megoldas)
                 };
             }
 
@@ -69,24 +73,24 @@ function szamolasSor(tomb) {
     for (let i = 0; i < tomb.length; i++) {
         if (tomb[i]) {
             akt++;
-        } else if (akt !== 0) {
+        } else if (akt != 0) {
             eredmeny.push(akt);
             akt = 0;
         }
     }
-    if (akt !== 0) eredmeny.push(akt);
-    if (eredmeny.length === 0) eredmeny.push(0);
+    if (akt != 0) eredmeny.push(akt);
+    if (eredmeny.length == 0) eredmeny.push(0);
     return eredmeny;
 }
 
 function dontes(cella, helyes) {
-    if (jelenleg === "fill") {
+    if (jelenleg == "fill") {
         if (helyes) {
             cella.style.backgroundColor = "black";
         } else {
             hiba(cella, helyes);
         }
-    } else if (jelenleg === "cross") {
+    } else if (jelenleg == "cross") {
         if (!helyes) {
             cella.innerText = "X";
         } else {
@@ -110,7 +114,7 @@ function hiba(cella, helyes) {
         }, 2000);
     }
     if(hp==0) {
-        vesztes()
+        vege("Vesztettél!")
     }
 }
 
@@ -142,10 +146,20 @@ function random(a, b) {
     return Math.floor(Math.random() * (b - a + 1)) + a;
 }
 
-function vesztes() {
+function vegeVanE(megoldas) {
+    let j = 0
+    let veg = true
+    while (j < megoldas.length) {
+        if(megoldas[j] != vezetes[j]) veg = false
+        j++
+    }
+    if (veg) vege("Nyertél!")
+}
+
+function vege(s) {
     let body = document.querySelector("body")
     body.innerHTML = ""
     let h1 = document.createElement("h1")
-    h1.innerText = "Vesztettél!"
+    h1.innerText = s
     body.appendChild(h1)
 }
