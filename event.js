@@ -113,7 +113,7 @@ function hiba(cella, helyes) {
         }, 2000);
     } else {
         setTimeout(() => {
-            cella.style.backgroundColor = "white";
+            cella.style.backgroundColor = "beige";
         }, 2000);
     }
     if(hp==0) {
