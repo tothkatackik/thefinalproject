@@ -14,8 +14,12 @@ function general() {
         let tr = document.createElement("tr")
         for(let j = 0; j<oszlop+1; j++) {
             let td = document.createElement("td")
-            td.onclick = function() {
+            if(typeof palya[i*sor+j] === "string") {
+                td.innerText = palya[i*sor+j]
+            } else {
+                td.onclick = function() {
                 dontes(this, sor*i+j)
+            }
             }
             tr.appendChild(td)
         }
@@ -113,9 +117,10 @@ function szamlalasOszlop(id) {
             if (id[j*oszlop+i]) {
                 akt++
             } else if (akt!=0) {
-                aktoszlop += `${akt} `
+                aktoszlop += `${akt}\n`
             }
         }
+        akt = 0
         oszlopok.push(aktoszlop)
     }
     palya.push("")
@@ -136,6 +141,7 @@ function szamlalasSor(id) {
                 aktsor += `${akt} `
             }
         }
+        akt = 0
         sorok.push(aktsor)
     }
     for(let i=0; i<sor;i++) {
